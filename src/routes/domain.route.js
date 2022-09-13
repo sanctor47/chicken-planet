@@ -6,8 +6,8 @@ const router = express.Router();
 //route to get all domains
 router.get('', domainController.getAllDomains);
 
-//route to create a new domain
-// router.post('',  domainController.newDomain);
+// route to create a new domain
+router.post('',  domainController.newDomain);
 
 //route to get a single domain by their domain id
 router.get('/id/:_id', domainController.getDomain);

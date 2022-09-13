@@ -1,19 +1,19 @@
 import HttpStatus from 'http-status-codes';
-import * as DomainService from '../services/domain.service';
+import * as ReadingService from '../services/reading.service';
 
 /**
- * Controller to get all domains available
+ * Controller to get all readings available
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const getAllDomains = async (req, res, next) => {
+export const getAllReadings = async (req, res, next) => {
   try {
-    const data = await DomainService.getAllDomains();
+    const data = await ReadingService.getAllReadings();
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
-      message: 'All domains fetched successfully'
+      message: 'All readings fetched successfully'
     });
   } catch (error) {
     next(error);
@@ -21,18 +21,18 @@ export const getAllDomains = async (req, res, next) => {
 };
 
 /**
- * Controller to get a single domain
+ * Controller to get a single reading
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const getDomain = async (req, res, next) => {
+export const getReading = async (req, res, next) => {
   try {
-    const data = await DomainService.getDomain(req.params._id);
+    const data = await ReadingService.getReading(req.params._id);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
-      message: 'Domain fetched successfully'
+      message: 'Reading fetched successfully'
     });
   } catch (error) {
     next(error);
@@ -40,18 +40,18 @@ export const getDomain = async (req, res, next) => {
 };
 
 /**
- * Controller to get a single domain
+ * Controller to create a new reading
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
- export const newDomain = async (req, res, next) => {
+export const newReading = async (req, res, next) => {
   try {
-    const data = await DomainService.newDomain(req.body);
-    res.status(HttpStatus.OK).json({
-      code: HttpStatus.OK,
+    const data = await ReadingService.newReading(req.body);
+    res.status(HttpStatus.CREATED).json({
+      code: HttpStatus.CREATED,
       data: data,
-      message: 'Domain fetched successfully'
+      message: 'Reading created successfully'
     });
   } catch (error) {
     next(error);
@@ -59,18 +59,18 @@ export const getDomain = async (req, res, next) => {
 };
 
 /**
- * Controller to update a domain
+ * Controller to update a reading
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const updateDomain = async (req, res, next) => {
+export const updateReading = async (req, res, next) => {
   try {
-    const data = await DomainService.updateDomain(req.params._id, req.body);
+    const data = await ReadingService.updateReading(req.params._id, req.body);
     res.status(HttpStatus.ACCEPTED).json({
       code: HttpStatus.ACCEPTED,
       data: data,
-      message: 'Domain updated successfully'
+      message: 'Reading updated successfully'
     });
   } catch (error) {
     next(error);
@@ -78,18 +78,18 @@ export const updateDomain = async (req, res, next) => {
 };
 
 /**
- * Controller to delete a domain
+ * Controller to delete a reading
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const deleteDomain = async (req, res, next) => {
+export const deleteReading = async (req, res, next) => {
   try {
-    await DomainService.deleteDomain(req.params._id);
+    await ReadingService.deleteReading(req.params._id);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: [],
-      message: 'Domain deleted successfully'
+      message: 'Reading deleted successfully'
     });
   } catch (error) {
     next(error);

@@ -1,19 +1,19 @@
 import HttpStatus from 'http-status-codes';
-import * as DomainService from '../services/domain.service';
+import * as NetworkService from '../services/network.service';
 
 /**
- * Controller to get all domains available
+ * Controller to get all networks available
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const getAllDomains = async (req, res, next) => {
+export const getAllNetworks = async (req, res, next) => {
   try {
-    const data = await DomainService.getAllDomains();
+    const data = await NetworkService.getAllNetworks();
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
-      message: 'All domains fetched successfully'
+      message: 'All networks fetched successfully'
     });
   } catch (error) {
     next(error);
@@ -21,18 +21,18 @@ export const getAllDomains = async (req, res, next) => {
 };
 
 /**
- * Controller to get a single domain
+ * Controller to get a single network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const getDomain = async (req, res, next) => {
+export const getNetwork = async (req, res, next) => {
   try {
-    const data = await DomainService.getDomain(req.params._id);
+    const data = await NetworkService.getNetwork(req.params._id);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
-      message: 'Domain fetched successfully'
+      message: 'Network fetched successfully'
     });
   } catch (error) {
     next(error);
@@ -40,18 +40,18 @@ export const getDomain = async (req, res, next) => {
 };
 
 /**
- * Controller to get a single domain
+ * Controller to create a new network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
- export const newDomain = async (req, res, next) => {
+export const newNetwork = async (req, res, next) => {
   try {
-    const data = await DomainService.newDomain(req.body);
-    res.status(HttpStatus.OK).json({
-      code: HttpStatus.OK,
+    const data = await NetworkService.newNetwork(req.body);
+    res.status(HttpStatus.CREATED).json({
+      code: HttpStatus.CREATED,
       data: data,
-      message: 'Domain fetched successfully'
+      message: 'Network created successfully'
     });
   } catch (error) {
     next(error);
@@ -59,18 +59,18 @@ export const getDomain = async (req, res, next) => {
 };
 
 /**
- * Controller to update a domain
+ * Controller to update a network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const updateDomain = async (req, res, next) => {
+export const updateNetwork = async (req, res, next) => {
   try {
-    const data = await DomainService.updateDomain(req.params._id, req.body);
+    const data = await NetworkService.updateNetwork(req.params._id, req.body);
     res.status(HttpStatus.ACCEPTED).json({
       code: HttpStatus.ACCEPTED,
       data: data,
-      message: 'Domain updated successfully'
+      message: 'Network updated successfully'
     });
   } catch (error) {
     next(error);
@@ -78,18 +78,18 @@ export const updateDomain = async (req, res, next) => {
 };
 
 /**
- * Controller to delete a domain
+ * Controller to delete a network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-export const deleteDomain = async (req, res, next) => {
+export const deleteNetwork = async (req, res, next) => {
   try {
-    await DomainService.deleteDomain(req.params._id);
+    await NetworkService.deleteNetwork(req.params._id);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: [],
-      message: 'Domain deleted successfully'
+      message: 'Network deleted successfully'
     });
   } catch (error) {
     next(error);

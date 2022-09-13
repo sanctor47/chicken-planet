@@ -17,7 +17,7 @@ export const getAllDevices = async () => {
 };
 
 //create new device
-export const newDevice = async (body, addedBy, domain) => {
+export const newDevice = async (body) => {
   try {
     const DeviceCheck = await Device.findOne({ name: body.name });
     if (DeviceCheck && DeviceCheck.domain === body.domain) {
@@ -30,9 +30,9 @@ export const newDevice = async (body, addedBy, domain) => {
       UUID: uuidv4(),
       name: body.name,
       label: body.label,
-      addedBy: addedBy,
-      domain: domain,
-      device_key: randomString()
+      domain: body.domain,
+      device_key: randomString(),
+      isGateway: body.isGateway ? body.isGateway : false,
     };
     const data = await Device.create(newDevice);
     return data;

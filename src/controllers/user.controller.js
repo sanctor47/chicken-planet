@@ -59,6 +59,25 @@ export const newUser = async (req, res, next) => {
 };
 
 /**
+ * Controller to Verify OTP
+ * @param  {object} req - request object
+ * @param {object} res - response object
+ * @param {Function} next
+ */
+ export const verfiyOTP = async (req, res, next) => {
+  try {
+    const data = await UserService.verfiyOTP(req.body);
+    res.status(HttpStatus.CREATED).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'OTP was verfide successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Controller to signup a user
  * @param  {object} req - request object
  * @param {object} res - response object

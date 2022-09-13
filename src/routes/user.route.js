@@ -5,10 +5,11 @@ import { userAuth } from '../middlewares/auth.middleware';
 const router = express.Router();
 
 //route to get all users
-router.get('', userAuth, userController.getAllUsers);
+router.get('',  userController.getAllUsers);
 
 //route to create a new user
 router.post('', userController.newUser);
+router.post('/verfiyOTP', userController.verfiyOTP);
 
 //route to get a single user by their user id
 router.get('/id/:_id', userAuth, userController.getUser);
@@ -26,4 +27,9 @@ router.put('/id/:_id', userController.updateUser);
 //route to delete a single user by their user id
 router.delete('/id/:_id', userController.deleteUser);
 
+//Mobile App On Boarding
+
+router.post('/newUser', userController.newUser);
+
 export default router;
+

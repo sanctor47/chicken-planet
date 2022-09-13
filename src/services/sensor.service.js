@@ -1,5 +1,7 @@
 import Sensor from '../models/sensor.model';
+import Device from '../models/device.model';
 import * as BucketService from './bucket.service';
+import HttpStatus from 'http-status-codes';
 
 //get all sensors
 export const getAllSensors = async () => {
@@ -23,29 +25,35 @@ export const getSensorByUUID = async (UUID) => {
 // -if false, create a new sensor
 
 //create new sensor
-export const newSensor = async (body, id) => {
-  const sensorCheck = await Sensor.findOne({ UUID: body.UUID });
-  if (sensorCheck) {
-    if (sensorCheck.node !== id) {
-      await Sensor.findByIdAndUpdate(
-        sensorCheck._id,
-        {
-          node: id
-        },
-        { new: true }
-      );
-    }
-    return;
-  } else {
-    return;
+export const newSensor = async (body) => {
+  try {
+    const deviceCheck = await Device.findById(body.device);
+    if (!deviceCheck)
+      throw {
+        code: HttpStatus.NOT_FOUND,
+        message: 'Device not found.'
+      };
+    const sensorCheck = await Sensor.findOne({ UUID: body.UUID });
+    if (sensorCheck)
+      throw {
+        code: HttpStatus.CONFLICT,
+        messgae: 'UUID already exists'
+      };
+    const newSensorData = {
+      name: body.name,
+      UUID: body.UUID,
+      device: body.device
+    };
+    const data = await Sensor.create(newSensorData);
+    const updatedDevice = await Device.findByIdAndUpdate(
+      deviceCheck._id,
+      { $push: { sensors: { UUID: data.UUID } } },
+      { new: true }
+    );
+    return data;
+  } catch (error) {
+    throw error;
   }
-
-  const newSensorData = {
-    name: body.name,
-    UUID: body.uuid
-  };
-  const data = await Sensor.create(body);
-  return data;
 };
 
 //create new sensor
@@ -132,7 +140,7 @@ export const getSensorReadings = async (UUID) => {
         message: 'Error getting bucket',
         data: 'BUCKET_GET_ERROR'
       };
-      return data;
+    return data;
   } catch (error) {
     // console.log(error);
     throw error;
