@@ -1,0 +1,241 @@
+### GET All Devices
+GET http://localhost:5000/api/v1/devices
+
+### POST New Gateway Device
+POST http://localhost:5000/api/v1/devices
+Content-Type: application/json
+
+{
+    "name": "Proto Gateway Device",
+    "label": "Proto Gateway",
+    "isGateway":"true",
+    "domain":"631e4b9b939d9c25a8271e9f"
+}
+
+### PUT New Gateway Device
+PUT http://localhost:5000/api/v1/devices/id/6329dea5b7c698077ce5d874
+Content-Type: application/json
+
+{
+    "UUID":"b4cf315c-1842-4e20-acf0-1253292d58e9"
+}
+
+### POST New Node Device
+POST http://localhost:5000/api/v1/devices
+Content-Type: application/json
+
+{
+    "name": "Proto Node Device 002",
+    "label": "Proto Node 002",
+    "domain":"631e4b9b939d9c25a8271e9f"
+}
+
+### PUT New Node Device
+PUT http://localhost:5000/api/v1/devices/id/6329df59b7c698077ce5d87c
+Content-Type: application/json
+
+{
+    "UUID": "60:01:94:7b:eb:e3"
+}
+
+### GET all networks
+GET http://localhost:5000/api/v1/networks
+
+### POST New Network
+POST http://127.0.0.1:5000/api/v1/networks
+Content-Type: application/json
+
+{
+    "name": "Proto Network - 002",
+    "gateway":"6329dea5b7c698077ce5d874",
+    "nodes":[
+        "6329df08b7c698077ce5d878",
+        "6329df59b7c698077ce5d87c"
+    ]
+}
+
+
+### GET All Sensors
+GET http://localhost:5000/api/v1/sensors
+
+### DELETE All Sensors
+DELETE http://localhost:5000/api/v1/sensors/631e4bff939d9c25a8271eb1
+
+###################___Node1-Sensors___##############################
+### POST New Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Temprature sensor",
+    "UUID": "Temperature001",
+    "device":"6329df08b7c698077ce5d878"
+
+}
+### POST New Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Humidty sensor",
+    "UUID": "Humidity001",
+    "device":"6329df08b7c698077ce5d878"
+
+}
+### POST New Amonia Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Amonia sensor",
+    "UUID": "Ammonia001",
+    "device":"6329df08b7c698077ce5d878"
+
+}
+
+###################___Node2-Sensors___##############################
+### POST New Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Temprature sensor",
+    "UUID": "Temperature002",
+    "device":"6329df59b7c698077ce5d87c"
+
+}
+### POST New Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Humidty sensor",
+    "UUID": "Humidity002",
+    "device":"6329df59b7c698077ce5d87c"
+
+}
+### POST New Amonia Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Amonia sensor",
+    "UUID": "Ammonia002",
+    "device":"6329df59b7c698077ce5d87c"
+
+}
+
+###################___Gateway-Sensors___##############################
+### POST New Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Temprature sensor",
+    "UUID": "Temperature003",
+    "device":"6329dea5b7c698077ce5d874"
+
+}
+### POST New Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Humidty sensor",
+    "UUID": "Humidity003",
+    "device":"6329dea5b7c698077ce5d874"
+
+}
+### POST New Amonia Sensor
+POST http://localhost:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Amonia sensor",
+    "UUID": "Ammonia003",
+    "device":"6329dea5b7c698077ce5d874"
+
+}
+
+
+### Gateway POST Request
+POST http://localhost:5000/api/v1/reading
+Content-Type: application/json
+
+{
+    "Gateway_uuid": "b4cf315c-1842-4e20-acf0-1253292d58e9",
+    "Temperature": { 
+        "sensor uuid": "Temperature003", 
+        "data": { 
+            "temperature": "24.0"
+        }
+    },
+    "Humidity": { 
+        "sensor uuid": "Humidity003", 
+        "data": { 
+            "humidity": "76.0" 
+        } 
+    },
+    "Ammonia": { 
+        "sensor uuid": "Ammonia003", 
+        "data": { 
+            "ammonia": "0" 
+        } 
+    }
+}
+
+### Node1 POST Request
+POST http://localhost:5000/api/v1/reading
+Content-Type: application/json
+
+{
+    "Node mac": "c4:5b:be:56:4b:d5",
+    "Temperature": { 
+        "sensor uuid": "Temperature001", 
+        "data": { 
+            "temperature": "50.0"
+        }
+    },
+    "Humidity": { 
+        "sensor uuid": "Humidity001", 
+        "data": { 
+            "humidity": "76.0" 
+        } 
+    },
+    "Ammonia": { 
+        "sensor uuid": "Ammonia001", 
+        "data": { 
+            "ammonia": "0" 
+        } 
+    }
+}
+
+### Node2 POST Request
+POST http://localhost:5000/api/v1/reading
+Content-Type: application/json
+
+{
+    "Node mac": "60:01:94:7b:eb:e3",
+    "Temperature": { 
+        "sensor uuid": "Temperature001", 
+        "data": { 
+            "temperature": "24.0"
+        }
+    },
+    "Humidity": { 
+        "sensor uuid": "Humidity001", 
+        "data": { 
+            "humidity": "76.0" 
+        } 
+    },
+    "Ammonia": { 
+        "sensor uuid": "Ammonia001", 
+        "data": { 
+            "ammonia": "0" 
+        } 
+    }
+}
+
+### GET All latest Readingings
+GET http://localhost:5000/api/v1/reading/networkId/6329e332b5e3a01fc47c9ea5
+Content-Type: application/json

@@ -1,0 +1,159 @@
+### GET All Domains
+GET http://18.185.66.214:5000/api/v1/domains
+Content-Type: application/json
+
+### POST New Domain
+POST http://18.185.66.214:5000/api/v1/domains
+Content-Type: application/json
+
+{
+    "name":"Global Test"
+}
+
+### GET All Devices
+GET http://18.185.66.214:5000/api/v1/devices
+Content-Type: application/json
+
+### GET Device by ID
+GET http://18.185.66.214:5000/api/v1/devices/631e3e0c866e9d1f389cb8ee
+Content-Type: application/json
+
+### GET All Networks
+GET http://18.185.66.214:5000/api/v1/networks
+Content-Type: application/json
+
+### GET Network by ID
+GET http://18.185.66.214:5000/api/v1/networks/id/631e4be5939d9c25a8271eac
+Content-Type: application/json
+
+### POST New Gateway Device
+POST http://18.185.66.214:5000/api/v1/devices
+Content-Type: application/json
+
+{
+    "name": "Test Gateway Device",
+    "label": "Test Gateway",
+    "isGateway":"true",
+    "domain":"6320b408c9985042070a29fb"
+}
+
+### POST New Node Device
+POST http://18.185.66.214:5000/api/v1/devices
+Content-Type: application/json
+
+{
+    "name": "Test Node Device 002",
+    "label": "Test Node 002",
+    "domain":"6320b408c9985042070a29fb"
+}
+
+### POST New Network
+POST http://18.185.66.214:5000/api/v1/networks
+Content-Type: application/json
+
+{
+    "name": "Network - 001",
+    "gateway":"6320b4eb9661f742d1115ba2",
+    "nodes":[
+        "6320b4f49661f742d1115ba5",
+        "6320b4fc9661f742d1115ba8"
+    ]
+}
+
+### GET All Sensors
+GET http://18.185.66.214:5000/api/v1/sensors
+
+#################################################
+### POST New Sensor
+POST http://18.185.66.214:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Temprature sensor",
+    "UUID": "111-1",
+    "device":"6320b4eb9661f742d1115ba2"
+
+}
+### POST New Sensor
+POST http://18.185.66.214:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Humidty sensor",
+    "UUID": "111-2",
+    "device":"6320b4eb9661f742d1115ba2"
+
+}
+### POST New Amonia Sensor
+POST http://18.185.66.214:5000/api/v1/sensors
+Content-Type: application/json
+
+{
+    "name": "Amonia sensor",
+    "UUID": "111-3",
+    "device":"6320b4eb9661f742d1115ba2"
+
+}
+#################################################
+
+### POST New Reading From Gateway
+POST http://18.185.66.214:5000/api/v1/reading
+Content-Type: application/json
+
+{
+  "node uuid": "c17f1320-4375-4815-abf4-5b5620885cf4",
+  "Temperature": {
+    "sensor uuid":"111-1",
+    "data":{
+        "temperature":"32.00"
+        }
+    },
+  "Ammonia": {
+    "sensor uuid":"111-3",
+    "data":{
+        "ammonia":"600"
+        }
+    },
+  "Humidity": {
+    "sensor uuid":"111-2",
+    "data":{
+        "humidity":"20.50"
+        }
+    }
+}
+
+### GET All Readingings
+GET http://18.185.66.214:5000/api/v1/reading
+Content-Type: application/json
+
+### GET All temp Readingings
+GET http://18.185.66.214:5000/api/v1/reading/temp
+Content-Type: application/json
+
+### GET All hum Readingings
+GET http://18.185.66.214:5000/api/v1/reading/hum
+Content-Type: application/json
+
+### GET All nh3 Readingings
+GET http://18.185.66.214:5000/api/v1/reading/nh3
+Content-Type: application/json
+
+### GET All temp Readingings
+GET http://18.185.66.214:5000/api/v1/reading/latest/temp
+Content-Type: application/json
+
+### GET All hum Readingings
+GET http://18.185.66.214:5000/api/v1/reading/latest/hum
+Content-Type: application/json
+
+### GET All nh3 Readingings
+GET http://18.185.66.214:5000/api/v1/reading/latest/nh3
+Content-Type: application/json
+
+### GET All latest Readingings
+GET http://18.185.66.214:5000/api/v1/reading/latest
+Content-Type: application/json
+
+### GET All latest Readingings
+GET http://18.185.66.214:5000/api/v1/reading/networkId/631e4be5939d9c25a8271eac
+Content-Type: application/json

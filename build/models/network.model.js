@@ -7,21 +7,22 @@ exports["default"] = void 0;
 
 var _mongoose = require("mongoose");
 
-var sensorSchema = new _mongoose.Schema({
+var networkSchema = new _mongoose.Schema({
   name: {
     type: String
   },
-  UUID: {
-    type: String
-  },
-  device: {
+  gateway: {
     type: _mongoose.Schema.Types.ObjectId,
-    ref: 'Device'
-  }
+    ref: "Device"
+  },
+  nodes: [{
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "Device"
+  }]
 }, {
   timestamps: true
 });
 
-var _default = (0, _mongoose.model)('Sensor', sensorSchema);
+var _default = (0, _mongoose.model)('Network', networkSchema);
 
 exports["default"] = _default;

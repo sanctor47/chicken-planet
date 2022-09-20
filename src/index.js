@@ -15,6 +15,7 @@ import {
 import logger, { logStream } from './config/logger';
 
 import morgan from 'morgan';
+import path from 'path';
 
 const app = express();
 const host = process.env.APP_HOST;
@@ -28,7 +29,10 @@ app.use(express.json());
 app.use(morgan('combined', { stream: logStream }));
 
 database();
+const FE = path.join(__dirname, 'views');
+// console.log(FE);
 
+app.use(express.static(FE));
 app.use(`/api/${api_version}`, routes());
 app.use(appErrorHandler);
 app.use(genericErrorHandler);

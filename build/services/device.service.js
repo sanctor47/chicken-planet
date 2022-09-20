@@ -66,7 +66,7 @@ var getAllDevices = /*#__PURE__*/function () {
 exports.getAllDevices = getAllDevices;
 
 var newDevice = /*#__PURE__*/function () {
-  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(body, addedBy, domain) {
+  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(body) {
     var DeviceCheck, _newDevice, data;
 
     return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -97,9 +97,9 @@ var newDevice = /*#__PURE__*/function () {
               UUID: (0, _uuid.v4)(),
               name: body.name,
               label: body.label,
-              addedBy: addedBy,
-              domain: domain,
-              device_key: randomString()
+              domain: body.domain,
+              device_key: randomString(),
+              isGateway: body.isGateway ? body.isGateway : false
             };
             _context2.next = 9;
             return _device["default"].create(_newDevice);
@@ -122,7 +122,7 @@ var newDevice = /*#__PURE__*/function () {
     }, _callee2, null, [[0, 13]]);
   }));
 
-  return function newDevice(_x, _x2, _x3) {
+  return function newDevice(_x) {
     return _ref2.apply(this, arguments);
   };
 }(); //update single device
@@ -156,7 +156,7 @@ var updateDevice = /*#__PURE__*/function () {
     }, _callee3);
   }));
 
-  return function updateDevice(_x4, _x5) {
+  return function updateDevice(_x2, _x3) {
     return _ref3.apply(this, arguments);
   };
 }(); //delete single device
@@ -184,7 +184,7 @@ var deleteDevice = /*#__PURE__*/function () {
     }, _callee4);
   }));
 
-  return function deleteDevice(_x6) {
+  return function deleteDevice(_x4) {
     return _ref4.apply(this, arguments);
   };
 }(); //get single device
@@ -214,7 +214,7 @@ var getDevice = /*#__PURE__*/function () {
     }, _callee5);
   }));
 
-  return function getDevice(_x7) {
+  return function getDevice(_x5) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -258,7 +258,7 @@ var addSensorToDeviceArray = /*#__PURE__*/function () {
     }, _callee6, null, [[1, 8]]);
   }));
 
-  return function addSensorToDeviceArray(_x8, _x9) {
+  return function addSensorToDeviceArray(_x6, _x7) {
     return _ref6.apply(this, arguments);
   };
 }();
@@ -536,7 +536,7 @@ var sync = /*#__PURE__*/function () {
     }, _callee7, null, [[0, 37]]);
   }));
 
-  return function sync(_x10, _x11) {
+  return function sync(_x8, _x9) {
     return _ref7.apply(this, arguments);
   };
 }(); //Login device
@@ -610,7 +610,7 @@ var login = /*#__PURE__*/function () {
     }, _callee8, null, [[0, 15]]);
   }));
 
-  return function login(_x12) {
+  return function login(_x10) {
     return _ref8.apply(this, arguments);
   };
 }();

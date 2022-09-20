@@ -6,6 +6,16 @@ export const getAllDomains = async () => {
   return data;
 };
 
+// export const getMyDomain = async (domainId) => {
+//   try {
+//     const 
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+
+// }
+
 //create new domain
 export const newDomain = async (body) => {
   try {
@@ -14,6 +24,20 @@ export const newDomain = async (body) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+//update single domain
+export const updateDomainName = async (_id, name) => {
+  const data = await Domain.findByIdAndUpdate(
+    {
+      _id
+    },
+    {name: name},
+    {
+      new: true
+    }
+  );
+  return data;
 };
 
 //update single domain

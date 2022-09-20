@@ -1,0 +1,41 @@
+Node1:
+Node mac - c4:5b:be:56:4b:d5
+Temperature uuid - Temperature001
+Humidity uuid - Humidity001
+Ammonia uuid - Ammonia001
+
+
+Node2:
+Node mac - 60:01:94:7b:eb:e3
+Temperature uuid - Temperature002
+Humidity uuid - Humidity002
+Ammonia uuid - Ammonia002
+
+
+Gateway:
+Gateway_uuid - 
+b4cf315c-1842-4e20-acf0-1253292d58e9
+Temperature uuid - Temperature003
+Humidity uuid - Humidity003
+Ammonia uuid - Ammonia003
+
+
+Gateway req body:
+
+  Gateway_uuid: 'b4cf315c-1842-4e20-acf0-1253292d58e9',
+  Temperature: { 'sensor uuid': 'Temperature003', data: { temperature: '24.0' } },
+  Humidity: { 'sensor uuid': 'Humidity003', data: { humidity: '76.0' } },
+  Ammonia: { 'sensor uuid': 'Ammonia003', data: { ammonia: 0 } }
+
+
+  Node 1 req body:
+
+{
+  'Node mac': 'c4:5b:be:56:4b:d5:',
+  Temperature: {
+    'sensor uuid': 'Temperature001',
+    data: { temperature: 34.40000153 }
+  },
+  Humidity: { 'sensor uuid': 'Humidity001', data: { humidity: 37.79999924 } },
+  Ammonia: { 'sensor uuid': 'Ammonia001', data: { ammonia: 608 } }
+}

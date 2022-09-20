@@ -47,7 +47,7 @@ export const getReading = async (req, res, next) => {
  */
 export const newReading = async (req, res, next) => {
   try {
-    const data = await ReadingService.newReading(req.body);
+    const data = await ReadingService.TempNewReading(req.body);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,

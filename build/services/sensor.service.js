@@ -15,7 +15,11 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _sensor = _interopRequireDefault(require("../models/sensor.model"));
 
+var _device = _interopRequireDefault(require("../models/device.model"));
+
 var BucketService = _interopRequireWildcard(require("./bucket.service"));
+
+var _httpStatusCodes = _interopRequireDefault(require("http-status-codes"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -95,64 +99,88 @@ var getSensorByUUID = /*#__PURE__*/function () {
 exports.getSensorByUUID = getSensorByUUID;
 
 var newSensor = /*#__PURE__*/function () {
-  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(body, id) {
-    var sensorCheck, newSensorData, data;
+  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(body) {
+    var deviceCheck, sensorCheck, newSensorData, data, updatedDevice;
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.next = 2;
+            _context3.prev = 0;
+            _context3.next = 3;
+            return _device["default"].findById(body.device);
+
+          case 3:
+            deviceCheck = _context3.sent;
+
+            if (deviceCheck) {
+              _context3.next = 6;
+              break;
+            }
+
+            throw {
+              code: _httpStatusCodes["default"].NOT_FOUND,
+              message: 'Device not found.'
+            };
+
+          case 6:
+            _context3.next = 8;
             return _sensor["default"].findOne({
               UUID: body.UUID
             });
 
-          case 2:
+          case 8:
             sensorCheck = _context3.sent;
 
             if (!sensorCheck) {
-              _context3.next = 10;
+              _context3.next = 11;
               break;
             }
 
-            if (!(sensorCheck.node !== id)) {
-              _context3.next = 7;
-              break;
-            }
-
-            _context3.next = 7;
-            return _sensor["default"].findByIdAndUpdate(sensorCheck._id, {
-              node: id
-            }, {
-              "new": true
-            });
-
-          case 7:
-            return _context3.abrupt("return");
-
-          case 10:
-            return _context3.abrupt("return");
+            throw {
+              code: _httpStatusCodes["default"].CONFLICT,
+              messgae: 'UUID already exists'
+            };
 
           case 11:
             newSensorData = {
               name: body.name,
-              UUID: body.uuid
+              UUID: body.UUID,
+              device: body.device
             };
             _context3.next = 14;
-            return _sensor["default"].create(body);
+            return _sensor["default"].create(newSensorData);
 
           case 14:
             data = _context3.sent;
+            _context3.next = 17;
+            return _device["default"].findByIdAndUpdate(deviceCheck._id, {
+              $push: {
+                sensors: {
+                  UUID: data.UUID
+                }
+              }
+            }, {
+              "new": true
+            });
+
+          case 17:
+            updatedDevice = _context3.sent;
             return _context3.abrupt("return", data);
 
-          case 16:
+          case 21:
+            _context3.prev = 21;
+            _context3.t0 = _context3["catch"](0);
+            throw _context3.t0;
+
+          case 24:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[0, 21]]);
   }));
 
-  return function newSensor(_x2, _x3) {
+  return function newSensor(_x2) {
     return _ref3.apply(this, arguments);
   };
 }(); //create new sensor
@@ -196,7 +224,7 @@ var addNewSensor = /*#__PURE__*/function () {
     }, _callee4, null, [[0, 8]]);
   }));
 
-  return function addNewSensor(_x4) {
+  return function addNewSensor(_x3) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -235,7 +263,7 @@ var updateSesnorNode = /*#__PURE__*/function () {
     }, _callee5, null, [[0, 7]]);
   }));
 
-  return function updateSesnorNode(_x5, _x6) {
+  return function updateSesnorNode(_x4, _x5) {
     return _ref5.apply(this, arguments);
   };
 }(); //update single sensor
@@ -269,7 +297,7 @@ var updateSensor = /*#__PURE__*/function () {
     }, _callee6);
   }));
 
-  return function updateSensor(_x7, _x8) {
+  return function updateSensor(_x6, _x7) {
     return _ref6.apply(this, arguments);
   };
 }(); //delete single sensor
@@ -297,7 +325,7 @@ var deleteSensor = /*#__PURE__*/function () {
     }, _callee7);
   }));
 
-  return function deleteSensor(_x9) {
+  return function deleteSensor(_x8) {
     return _ref7.apply(this, arguments);
   };
 }(); //get single sensor
@@ -327,7 +355,7 @@ var getSensor = /*#__PURE__*/function () {
     }, _callee8);
   }));
 
-  return function getSensor(_x10) {
+  return function getSensor(_x9) {
     return _ref8.apply(this, arguments);
   };
 }();
@@ -364,7 +392,7 @@ var newReadings = /*#__PURE__*/function () {
                   }, _callee9);
                 }));
 
-                return function (_x12) {
+                return function (_x11) {
                   return _ref10.apply(this, arguments);
                 };
               }());
@@ -380,7 +408,7 @@ var newReadings = /*#__PURE__*/function () {
     }, _callee10);
   }));
 
-  return function newReadings(_x11) {
+  return function newReadings(_x10) {
     return _ref9.apply(this, arguments);
   };
 }();
@@ -449,7 +477,7 @@ var getSensorReadings = /*#__PURE__*/function () {
     }, _callee11, null, [[0, 15]]);
   }));
 
-  return function getSensorReadings(_x13) {
+  return function getSensorReadings(_x12) {
     return _ref11.apply(this, arguments);
   };
 }();

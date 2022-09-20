@@ -7,21 +7,21 @@ exports["default"] = void 0;
 
 var _mongoose = require("mongoose");
 
-var sensorSchema = new _mongoose.Schema({
-  name: {
-    type: String
-  },
-  UUID: {
-    type: String
-  },
-  device: {
+var readingSchema = new _mongoose.Schema({
+  sensor: {
     type: _mongoose.Schema.Types.ObjectId,
-    ref: 'Device'
+    ref: 'Sensor'
+  },
+  key: {
+    type: String
+  },
+  point: {
+    type: String
   }
 }, {
   timestamps: true
 });
 
-var _default = (0, _mongoose.model)('Sensor', sensorSchema);
+var _default = (0, _mongoose.model)('Reading', readingSchema);
 
 exports["default"] = _default;

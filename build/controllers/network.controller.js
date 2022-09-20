@@ -7,7 +7,7 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateDomain = exports.newDomain = exports.getDomain = exports.getAllDomains = exports.deleteDomain = void 0;
+exports.updateNetwork = exports.newNetwork = exports.getNetwork = exports.getAllNetworks = exports.deleteNetwork = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -15,19 +15,19 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _httpStatusCodes = _interopRequireDefault(require("http-status-codes"));
 
-var DomainService = _interopRequireWildcard(require("../services/domain.service"));
+var NetworkService = _interopRequireWildcard(require("../services/network.service"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /**
- * Controller to get all domains available
+ * Controller to get all networks available
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-var getAllDomains = /*#__PURE__*/function () {
+var getAllNetworks = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res, next) {
     var data;
     return _regenerator["default"].wrap(function _callee$(_context) {
@@ -36,14 +36,14 @@ var getAllDomains = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return DomainService.getAllDomains();
+            return NetworkService.getAllNetworks();
 
           case 3:
             data = _context.sent;
             res.status(_httpStatusCodes["default"].OK).json({
               code: _httpStatusCodes["default"].OK,
               data: data,
-              message: 'All domains fetched successfully'
+              message: 'All networks fetched successfully'
             });
             _context.next = 10;
             break;
@@ -61,21 +61,21 @@ var getAllDomains = /*#__PURE__*/function () {
     }, _callee, null, [[0, 7]]);
   }));
 
-  return function getAllDomains(_x, _x2, _x3) {
+  return function getAllNetworks(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
 /**
- * Controller to get a single domain
+ * Controller to get a single network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
 
 
-exports.getAllDomains = getAllDomains;
+exports.getAllNetworks = getAllNetworks;
 
-var getDomain = /*#__PURE__*/function () {
+var getNetwork = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res, next) {
     var data;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -84,14 +84,14 @@ var getDomain = /*#__PURE__*/function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return DomainService.getDomain(req.params._id);
+            return NetworkService.getNetwork(req.params._id);
 
           case 3:
             data = _context2.sent;
             res.status(_httpStatusCodes["default"].OK).json({
               code: _httpStatusCodes["default"].OK,
               data: data,
-              message: 'Domain fetched successfully'
+              message: 'Network fetched successfully'
             });
             _context2.next = 10;
             break;
@@ -109,21 +109,21 @@ var getDomain = /*#__PURE__*/function () {
     }, _callee2, null, [[0, 7]]);
   }));
 
-  return function getDomain(_x4, _x5, _x6) {
+  return function getNetwork(_x4, _x5, _x6) {
     return _ref2.apply(this, arguments);
   };
 }();
 /**
- * Controller to get a single domain
+ * Controller to create a new network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
 
 
-exports.getDomain = getDomain;
+exports.getNetwork = getNetwork;
 
-var newDomain = /*#__PURE__*/function () {
+var newNetwork = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res, next) {
     var data;
     return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -132,14 +132,14 @@ var newDomain = /*#__PURE__*/function () {
           case 0:
             _context3.prev = 0;
             _context3.next = 3;
-            return DomainService.newDomain(req.body);
+            return NetworkService.newNetwork(req.body);
 
           case 3:
             data = _context3.sent;
-            res.status(_httpStatusCodes["default"].OK).json({
-              code: _httpStatusCodes["default"].OK,
+            res.status(_httpStatusCodes["default"].CREATED).json({
+              code: _httpStatusCodes["default"].CREATED,
               data: data,
-              message: 'Domain fetched successfully'
+              message: 'Network created successfully'
             });
             _context3.next = 10;
             break;
@@ -157,21 +157,21 @@ var newDomain = /*#__PURE__*/function () {
     }, _callee3, null, [[0, 7]]);
   }));
 
-  return function newDomain(_x7, _x8, _x9) {
+  return function newNetwork(_x7, _x8, _x9) {
     return _ref3.apply(this, arguments);
   };
 }();
 /**
- * Controller to update a domain
+ * Controller to update a network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
 
 
-exports.newDomain = newDomain;
+exports.newNetwork = newNetwork;
 
-var updateDomain = /*#__PURE__*/function () {
+var updateNetwork = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res, next) {
     var data;
     return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -180,14 +180,14 @@ var updateDomain = /*#__PURE__*/function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return DomainService.updateDomain(req.params._id, req.body);
+            return NetworkService.updateNetwork(req.params._id, req.body);
 
           case 3:
             data = _context4.sent;
             res.status(_httpStatusCodes["default"].ACCEPTED).json({
               code: _httpStatusCodes["default"].ACCEPTED,
               data: data,
-              message: 'Domain updated successfully'
+              message: 'Network updated successfully'
             });
             _context4.next = 10;
             break;
@@ -205,21 +205,21 @@ var updateDomain = /*#__PURE__*/function () {
     }, _callee4, null, [[0, 7]]);
   }));
 
-  return function updateDomain(_x10, _x11, _x12) {
+  return function updateNetwork(_x10, _x11, _x12) {
     return _ref4.apply(this, arguments);
   };
 }();
 /**
- * Controller to delete a domain
+ * Controller to delete a network
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
 
 
-exports.updateDomain = updateDomain;
+exports.updateNetwork = updateNetwork;
 
-var deleteDomain = /*#__PURE__*/function () {
+var deleteNetwork = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res, next) {
     return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) {
@@ -227,13 +227,13 @@ var deleteDomain = /*#__PURE__*/function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return DomainService.deleteDomain(req.params._id);
+            return NetworkService.deleteNetwork(req.params._id);
 
           case 3:
             res.status(_httpStatusCodes["default"].OK).json({
               code: _httpStatusCodes["default"].OK,
               data: [],
-              message: 'Domain deleted successfully'
+              message: 'Network deleted successfully'
             });
             _context5.next = 9;
             break;
@@ -251,9 +251,9 @@ var deleteDomain = /*#__PURE__*/function () {
     }, _callee5, null, [[0, 6]]);
   }));
 
-  return function deleteDomain(_x13, _x14, _x15) {
+  return function deleteNetwork(_x13, _x14, _x15) {
     return _ref5.apply(this, arguments);
   };
 }();
 
-exports.deleteDomain = deleteDomain;
+exports.deleteNetwork = deleteNetwork;

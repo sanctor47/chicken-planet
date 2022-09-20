@@ -4,7 +4,7 @@ import HttpStatus from 'http-status-codes';
 import * as DomainService from '../services/domain.service';
 
 //get all users
-export const getAllUsers = async () => {
+export const getAllUsers = async (params) => {
   try {
     const data = await User.find();
     return data;
@@ -23,14 +23,18 @@ export const newUser = async (body) => {
         code: HttpStatus.PARTIAL_CONTENT,
         message: 'Please enter a phone number.'
       };
+    console.log('Phone number: ' + phone);
     const duplicateUser = User.findOne({ phone: phone });
-    if (duplicateUser)
-      throw {
-        code: HttpStatus.CONFLICT,
-        message: 'Phone number alredy exists.'
-      };
-    const newUser = User.create({ phone: phone, OTP: '1234' });
-    return newUser;
+    if (duplicateUser) {
+      console.log('Creating new user');
+      const newUser = User.create({ phone: phone, OTP: '1234' });
+      return newUser;
+    }
+    console.log(duplicateUser);
+    throw {
+      code: HttpStatus.CONFLICT,
+      message: 'Phone number alredy exists.'
+    };
   } catch (error) {
     console.log(error);
     throw error;
@@ -39,42 +43,153 @@ export const newUser = async (body) => {
 
 export const verfiyOTP = async (body) => {
   try {
-    const { OTP } = body;
+    const { OTP, phone } = body;
     if (!OTP)
       throw {
         code: HttpStatus.BAD_REQUEST,
         message: 'OTP not found'
       };
-    const foundUser = await User.findOne({ OTP: OTP });
+    if (!phone)
+      throw {
+        code: HttpStatus.BAD_REQUEST,
+        message: 'phone not found'
+      };
+    const foundUser = await User.findOne({ phone: phone });
     if (!foundUser)
       throw {
         code: HttpStatus.NOT_FOUND,
-        message: ' invalid OTP'
+        message: 'Phone Number not found'
+      };
+    if (foundUser.OTP !== OTP)
+      throw {
+        code: HttpStatus.NOT_FOUND,
+        message: 'Invalid OTP'
       };
     const domainData = {
       name: `${foundUser.phone} - Domain`,
       owner: foundUser._id
     };
     const domain = await DomainService.newDomain(domainData);
-    const updatedUser = await User.findByIdAndUpdate(
-      foundUser._id,
-      { domain: domain._id },
-      { new: true }
-    );
-    const token = jwt.sign(
+    const refreshToken = jwt.sign(
       { _id: foundUser._id, domain: domain._id },
       process.env.TOKEN_KEY,
       {
         expiresIn: '100h'
       }
     );
+    const token = jwt.sign(
+      { _id: foundUser._id, domain: domain._id },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: '10h'
+      }
+    );
+    const updatedUser = await User.findByIdAndUpdate(
+      foundUser._id,
+      { domain: domain._id, refreshToken: refreshToken },
+      { new: true }
+    );
     return {
-      userToken: token
+      userToken: token,
+      refreshToken: refreshToken
     };
   } catch (error) {
     console.log(error);
     throw error;
   }
+};
+
+export const RefreshToken = async (bearerToken) => {
+  try {
+    if (!bearerToken)
+      throw {
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Refersh token is required'
+      };
+    bearerToken = bearerToken.split(' ')[1];
+
+    const { _id, phone, domain } = await jwt.verify(
+      bearerToken,
+      process.env.TOKEN_KEY
+    );
+
+    const foundUser = await User.findById(_id);
+    if (!foundUser) {
+      throw {
+        code: HttpStatus.NOT_FOUND,
+        message: 'User not found.'
+      };
+    }
+    if(foundUser.refreshToken !== bearerToken){
+      throw{
+        code: HttpStatus.NOT_FOUND,
+        message: 'Refresh token not found.'
+      }
+    }
+    const newRefreshToken = jwt.sign(
+      { _id: foundUser._id, domain: domain._id },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: '100h'
+      }
+    );
+    const token = jwt.sign(
+      { _id: foundUser._id, domain: domain._id },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: '10h'
+      }
+    );
+    const updatedUser = await User.findByIdAndUpdate(
+      foundUser._id,
+      { refreshToken: newRefreshToken },
+      { new: true }
+    );
+    return {
+      userToken: token,
+      refreshToken: newRefreshToken
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+//update single user
+export const updateUserInfo = async (_id, body) => {
+  console.log(_id);
+  try {
+    const { firstName, lastName, email } = body;
+    const data = await User.findByIdAndUpdate(
+      { _id },
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        completedProfile: true
+      },
+      { new: true }
+    );
+    const domainUpdate = DomainService.updateDomainName(
+      data.domain,
+      `${data.firstName} ${data.lastName} - Domain`
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//delete single user
+export const deleteUser = async (id) => {
+  await User.findByIdAndDelete(id);
+  return '';
+};
+
+//get single user
+export const getUser = async (id) => {
+  const data = await User.findById(id);
+  return data;
 };
 
 export const updateProfile = async (body, id) => {
@@ -123,106 +238,10 @@ export const login = async (body) => {
         expiresIn: '100h'
       }
     );
-    
+
     return { userToken: token };
   } catch (error) {
     console.log(error);
     throw error;
   }
-};
-
-//Signup New User
-// export const signup = async (body) => {
-//   try {
-//     const { firstName, lastName, phone, password } = body;
-//     const UserByPhone = await User.findOne({ phone: phone });
-//     if (UserByPhone) {
-//       throw {
-//         code: '403',
-//         message: 'Phone Number Alredy Regestered',
-//         data: 'PHONE_ALREDY_REGESTERED'
-//       };
-//     }
-//     const encryptedPassword = await bcrypt.hash(password, 10);
-//     const userData = {
-//       firstName,
-//       lastName,
-//       phone,
-//       password: encryptedPassword
-//     };
-//     const data = await User.create(userData);
-//     const domainData = {
-//       name: `${firstName} ${lastName} - Domain`,
-//       owner: data._id
-//     };
-//     const domain = await DomainService.newDomain(domainData);
-//     const updatedUser = await User.findByIdAndUpdate(
-//       data._id,
-//       { domain: domain._id },
-//       { new: true }
-//     );
-//     return updateUser;
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   }
-// };
-
-//Login New User
-// export const login = async (body) => {
-//   const { phone, password } = body;
-//   try {
-//     const UserByphone = await User.findOne({ phone: phone });
-//     if (!UserByphone) {
-//       throw {
-//         code: '404',
-//         message: 'User not found',
-//         data: 'USER_NOT_FOUND'
-//       };
-//     }
-//     if (!(await bcrypt.compare(password, UserByphone.password))) {
-//       throw {
-//         code: '401',
-//         message: 'User not found',
-//         data: 'USER_NOT_FOUND'
-//       };
-//     }
-// const token = jwt.sign(
-//   { _id: UserByphone._id, phone, domain: UserByphone.domain },
-//   process.env.TOKEN_KEY,
-//   {
-//     expiresIn: '2h'
-//   }
-// );
-//     return token;
-//   } catch (error) {
-//     console.log(error);
-//     throw error;
-//   }
-// };
-
-//update single user
-export const updateUser = async (_id, body) => {
-  const data = await User.findByIdAndUpdate(
-    {
-      _id
-    },
-    body,
-    {
-      new: true
-    }
-  );
-  return data;
-};
-
-//delete single user
-export const deleteUser = async (id) => {
-  await User.findByIdAndDelete(id);
-  return '';
-};
-
-//get single user
-export const getUser = async (id) => {
-  const data = await User.findById(id);
-  return data;
 };

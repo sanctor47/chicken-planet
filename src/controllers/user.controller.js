@@ -9,7 +9,7 @@ import * as UserService from '../services/user.service';
  */
 export const getAllUsers = async (req, res, next) => {
   try {
-    const data = await UserService.getAllUsers();
+    const data = await UserService.getAllUsers(req.params);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
@@ -51,7 +51,7 @@ export const newUser = async (req, res, next) => {
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,
-      message: 'User created successfully'
+      message: 'User created successfully, Sending OTP'
     });
   } catch (error) {
     next(error);
@@ -64,7 +64,7 @@ export const newUser = async (req, res, next) => {
  * @param {object} res - response object
  * @param {Function} next
  */
- export const verfiyOTP = async (req, res, next) => {
+export const verfiyOTP = async (req, res, next) => {
   try {
     const data = await UserService.verfiyOTP(req.body);
     res.status(HttpStatus.CREATED).json({
@@ -77,43 +77,24 @@ export const newUser = async (req, res, next) => {
   }
 };
 
-/**
- * Controller to signup a user
- * @param  {object} req - request object
- * @param {object} res - response object
- * @param {Function} next
- */
- export const signup = async (req, res, next) => {
-  try {
-    const data = await UserService.signup(req.body);
-    res.status(HttpStatus.CREATED).json({
-      code: HttpStatus.CREATED,
-      data: data,
-      message: 'User signup successfully'
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * Controller to login a user
- * @param  {object} req - request object
- * @param {object} res - response object
- * @param {Function} next
- */
- export const login = async (req, res, next) => {
-  try {
-    const data = await UserService.login(req.body);
-    res.status(HttpStatus.CREATED).json({
-      code: HttpStatus.CREATED,
-      data: data,
-      message: 'User login successfully'
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+// /**
+//  * Controller to login a user
+//  * @param  {object} req - request object
+//  * @param {object} res - response object
+//  * @param {Function} next
+//  */
+// export const login = async (req, res, next) => {
+//   try {
+//     const data = await UserService.login(req.body);
+//     res.status(HttpStatus.CREATED).json({
+//       code: HttpStatus.CREATED,
+//       data: data,
+//       message: 'User login successfully'
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 /**
  * Controller to update a user
@@ -121,9 +102,9 @@ export const newUser = async (req, res, next) => {
  * @param {object} res - response object
  * @param {Function} next
  */
-export const updateUser = async (req, res, next) => {
+export const updateUserInfo = async (req, res, next) => {
   try {
-    const data = await UserService.updateUser(req.params._id, req.body);
+    const data = await UserService.updateUserInfo(res.locals._id, req.body);
     res.status(HttpStatus.ACCEPTED).json({
       code: HttpStatus.ACCEPTED,
       data: data,
@@ -154,14 +135,34 @@ export const deleteUser = async (req, res, next) => {
 };
 
 /**
- * Controller to delete a user
+ * Controller to get current user
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
- export const getCurrentUser = async (req, res, next) => {
+export const getCurrentUser = async (req, res, next) => {
   try {
     const data = await UserService.getUser(res.locals._id);
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'User data retrived successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Controller to get current user
+ * @param  {object} req - request object
+ * @param {object} res - response object
+ * @param {Function} next
+ */
+export const refreshToken = async (req, res, next) => {
+  try {
+    const reqRefreshToken = req.header('Authorization')
+    const data = await UserService.RefreshToken(reqRefreshToken);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
