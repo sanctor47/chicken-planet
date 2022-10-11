@@ -1,37 +1,58 @@
 ### GET All Devices
-GET http://localhost:5000/api/v1/devices
+GET http://18.185.66.214:5000/api/v1/domains
+
+### GET All Devices
+GET http://18.185.66.214:5000/api/v1/devices
 
 ### POST New Gateway Device
-POST http://localhost:5000/api/v1/devices
+POST http://18.185.66.214:5000/api/v1/devices
 Content-Type: application/json
 
 {
     "name": "Proto Gateway Device",
     "label": "Proto Gateway",
     "isGateway":"true",
-    "domain":"631e4b9b939d9c25a8271e9f"
+    "domain":"6320b408c9985042070a29fb"
 }
 
 ### PUT New Gateway Device
-PUT http://localhost:5000/api/v1/devices/id/6329dea5b7c698077ce5d874
+PUT http://18.185.66.214:5000/api/v1/devices/id/632b1b6efee29216c0d4bb0f
 Content-Type: application/json
 
 {
     "UUID":"b4cf315c-1842-4e20-acf0-1253292d58e9"
 }
 
+### POST New Node1 Device
+POST http://18.185.66.214:5000/api/v1/devices
+Content-Type: application/json
+
+{
+    "name": "Proto Node Device 001",
+    "label": "Proto Node 001",
+    "domain":"6320b408c9985042070a29fb"
+}
+
+### PUT New Node Device
+PUT http://18.185.66.214:5000/api/v1/devices/id/632b1b94fee29216c0d4bb13
+Content-Type: application/json
+
+{
+    "UUID": "c4:5b:be:56:4b:d5"
+}
+
 ### POST New Node Device
-POST http://localhost:5000/api/v1/devices
+POST http://18.185.66.214:5000/api/v1/devices
 Content-Type: application/json
 
 {
     "name": "Proto Node Device 002",
     "label": "Proto Node 002",
-    "domain":"631e4b9b939d9c25a8271e9f"
+    "domain":"6320b408c9985042070a29fb"
 }
 
 ### PUT New Node Device
-PUT http://localhost:5000/api/v1/devices/id/6329df59b7c698077ce5d87c
+PUT http://18.185.66.214:5000/api/v1/devices/id/632b1ba4fee29216c0d4bb17
 Content-Type: application/json
 
 {
@@ -39,127 +60,127 @@ Content-Type: application/json
 }
 
 ### GET all networks
-GET http://localhost:5000/api/v1/networks
+GET http://18.185.66.214:5000/api/v1/networks
 
 ### POST New Network
-POST http://127.0.0.1:5000/api/v1/networks
+POST http://18.185.66.214:5000/api/v1/networks
 Content-Type: application/json
 
 {
     "name": "Proto Network - 002",
-    "gateway":"6329dea5b7c698077ce5d874",
+    "gateway":"632b1b6efee29216c0d4bb0f",
     "nodes":[
-        "6329df08b7c698077ce5d878",
-        "6329df59b7c698077ce5d87c"
+        "632b1b94fee29216c0d4bb13",
+        "632b1ba4fee29216c0d4bb17"
     ]
 }
 
 
 ### GET All Sensors
-GET http://localhost:5000/api/v1/sensors
+GET http://18.185.66.214:5000/api/v1/sensors
 
 ### DELETE All Sensors
-DELETE http://localhost:5000/api/v1/sensors/631e4bff939d9c25a8271eb1
+DELETE http://18.185.66.214:5000/api/v1/sensors/631e4bff939d9c25a8271eb1
 
 ###################___Node1-Sensors___##############################
 ### POST New Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Temprature sensor",
     "UUID": "Temperature001",
-    "device":"6329df08b7c698077ce5d878"
+    "device":"632b1b94fee29216c0d4bb13"
 
 }
 ### POST New Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Humidty sensor",
     "UUID": "Humidity001",
-    "device":"6329df08b7c698077ce5d878"
+    "device":"632b1b94fee29216c0d4bb13"
 
 }
 ### POST New Amonia Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Amonia sensor",
     "UUID": "Ammonia001",
-    "device":"6329df08b7c698077ce5d878"
+    "device":"632b1b94fee29216c0d4bb13"
 
 }
 
 ###################___Node2-Sensors___##############################
 ### POST New Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Temprature sensor",
     "UUID": "Temperature002",
-    "device":"6329df59b7c698077ce5d87c"
+    "device":"632b1ba4fee29216c0d4bb17"
 
 }
 ### POST New Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Humidty sensor",
     "UUID": "Humidity002",
-    "device":"6329df59b7c698077ce5d87c"
+    "device":"632b1ba4fee29216c0d4bb17"
 
 }
 ### POST New Amonia Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Amonia sensor",
     "UUID": "Ammonia002",
-    "device":"6329df59b7c698077ce5d87c"
+    "device":"632b1ba4fee29216c0d4bb17"
 
 }
 
 ###################___Gateway-Sensors___##############################
 ### POST New Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Temprature sensor",
     "UUID": "Temperature003",
-    "device":"6329dea5b7c698077ce5d874"
+    "device":"632b1b6efee29216c0d4bb0f"
 
 }
 ### POST New Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Humidty sensor",
     "UUID": "Humidity003",
-    "device":"6329dea5b7c698077ce5d874"
+    "device":"632b1b6efee29216c0d4bb0f"
 
 }
 ### POST New Amonia Sensor
-POST http://localhost:5000/api/v1/sensors
+POST http://18.185.66.214:5000/api/v1/sensors
 Content-Type: application/json
 
 {
     "name": "Amonia sensor",
     "UUID": "Ammonia003",
-    "device":"6329dea5b7c698077ce5d874"
+    "device":"632b1b6efee29216c0d4bb0f"
 
 }
 
 
 ### Gateway POST Request
-POST http://localhost:5000/api/v1/reading
+POST http://18.185.66.214:5000/api/v1/reading
 Content-Type: application/json
 
 {
@@ -185,7 +206,7 @@ Content-Type: application/json
 }
 
 ### Node1 POST Request
-POST http://localhost:5000/api/v1/reading
+POST http://18.185.66.214:5000/api/v1/reading
 Content-Type: application/json
 
 {
@@ -211,7 +232,7 @@ Content-Type: application/json
 }
 
 ### Node2 POST Request
-POST http://localhost:5000/api/v1/reading
+POST http://18.185.66.214:5000/api/v1/reading
 Content-Type: application/json
 
 {
@@ -237,5 +258,5 @@ Content-Type: application/json
 }
 
 ### GET All latest Readingings
-GET http://localhost:5000/api/v1/reading/networkId/6329e332b5e3a01fc47c9ea5
+GET http://18.185.66.214:5000/api/v1/reading/networkId/632b1bebfee29216c0d4bb1a
 Content-Type: application/json

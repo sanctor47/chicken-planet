@@ -120,7 +120,7 @@ const arrayAvg = (array)=>{
         sum = parseInt(element) + sum
     }
     avg = sum/array.length
-    return avg;
+    return Number(avg).toFixed(2);
 }
 
 const getAvgReadings = async (gateway, nodes) => {
@@ -135,7 +135,7 @@ const getAvgReadings = async (gateway, nodes) => {
     const n = TargetGateway.sensors[index];
     const TargetSensor = await Sensors.findOne({ UUID: n.UUID });
     const TargetReadigns = await Readings.find({ sensor: TargetSensor._id });
-    for (let index = 0; index < TargetReadigns.length; index++) {
+    for (let index = 0; index < 10; index++) {
       const element = TargetReadigns[index];
       if (element.key === 'Temprature') temps.push(element.point);
       if (element.key === 'Humidity') hums.push(element.point);
@@ -178,6 +178,14 @@ const getAvgReadings = async (gateway, nodes) => {
     nh3Avg
   };
 };
+
+router.get('/', async(req, res, next) => {
+  try{
+
+  }catch (error) {
+    throw err;
+  }
+})
 
 router.get('/networkId/:networkId', async (req, res, next) => {
   try {
