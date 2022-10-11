@@ -128,21 +128,16 @@ const getAvgReadings = async (gateway, nodes) => {
   var hums = [];
   var nh3s = [];
 
-  //   temps.push("20")
-
   const TargetGateway = await Devices.findById(gateway);
   for (let index = 0; index < TargetGateway.sensors.length; index++) {
     const n = TargetGateway.sensors[index];
     const TargetSensor = await Sensors.findOne({ UUID: n.UUID });
     const TargetReadigns = await Readings.find({ sensor: TargetSensor._id });
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < 2; index++) {
       const element = TargetReadigns[index];
       if (element.key === 'Temprature') temps.push(element.point);
       if (element.key === 'Humidity') hums.push(element.point);
       if (element.key === 'Ammonia') nh3s.push(element.point);
-    //   if (element.key === 'Temprature') console.log('Temp: ', element.point);
-    //   if (element.key === 'Humidity') console.log('Hum: ', element.point);
-    //   if (element.key === 'Ammonia') console.log('Nh3: ', element.point);
     }
   }
 
@@ -153,7 +148,7 @@ const getAvgReadings = async (gateway, nodes) => {
       const n = node.sensors[index];
       const TargetSensor = await Sensors.findOne({ UUID: n.UUID });
       const TargetReadigns = await Readings.find({ sensor: TargetSensor._id });
-      for (let index = 0; index < TargetReadigns.length; index++) {
+      for (let index = 0; index < 2; index++) {
         const element = TargetReadigns[index];
         if (element.key === 'Temprature') temps.push(element.point);
         if (element.key === 'Humidity') hums.push(element.point);
@@ -189,6 +184,7 @@ router.get('/', async(req, res, next) => {
 
 router.get('/networkId/:networkId', async (req, res, next) => {
   try {
+    
     const TargetNework = await Networks.findById(req.params.networkId);
     if (!TargetNework)
       throw {
