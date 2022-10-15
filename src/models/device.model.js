@@ -21,7 +21,9 @@ const deviceSchema = new Schema(
     nodes: [{ type: Schema.Types.ObjectId, ref: 'Device' }],
     sensors: [
       {
-        UUID: { type: String }
+        UUID: { type: String },
+        key: { type: String },
+        sensor: { type: Schema.Types.ObjectId, ref: 'Sensor' },
       }
     ],
     actuators: [

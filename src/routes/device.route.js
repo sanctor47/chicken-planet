@@ -11,7 +11,7 @@ router.get('', deviceController.getAllDevices);
 router.post('', deviceController.newDevice);
 
 //route to get a single device by their device id
-router.get('/id/:_id', deviceAuth, deviceController.getDevice);
+router.get('/id/:_id',  deviceController.getDevice);
 
 //route to update a single device by their device id
 router.put('/id/:_id', deviceController.updateDevice);

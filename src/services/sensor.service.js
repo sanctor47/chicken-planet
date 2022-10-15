@@ -42,12 +42,13 @@ export const newSensor = async (body) => {
     const newSensorData = {
       name: body.name,
       UUID: body.UUID,
-      device: body.device
+      device: body.device,
+      key: body.key
     };
     const data = await Sensor.create(newSensorData);
     const updatedDevice = await Device.findByIdAndUpdate(
       deviceCheck._id,
-      { $push: { sensors: { UUID: data.UUID } } },
+      { $push: { sensors: { UUID: data.UUID, sensor: data._id, key: data.key } } },
       { new: true }
     );
     return data;

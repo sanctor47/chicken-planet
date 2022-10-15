@@ -23,6 +23,93 @@ router.put('/id/:_id', readingController.updateReading);
 //route to delete a single reading by their reading id
 router.delete('/id/:_id', readingController.deleteReading);
 
+router.get('/latest/temp/:_id', async (req, res, next) => {
+  try {
+    const deviceId = req.params._id;
+    const TargetDevice = await Devices.findById(deviceId);
+    const sensors = TargetDevice.sensors
+    let tempSensorUUID = {};
+    for (let index = 0; index < sensors.length; index++) {
+      const element = sensors[index];
+      if (element.UUID.includes("Temperature")) {
+        tempSensorUUID = element
+      }
+    }
+    const targetSensor = await Sensors.findOne({ UUID: tempSensorUUID.UUID })
+    const LatestReading = await Readings.findOne({ sensor: targetSensor._id }, {}, { sort: { 'created_at': -1 } })
+    console.log(LatestReading);
+    res.status(200).json(LatestReading)
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get('/latest/ammonia/:_id', async (req, res, next) => {
+  try {
+    const deviceId = req.params._id;
+    const TargetDevice = await Devices.findById(deviceId);
+    const sensors = TargetDevice.sensors
+    let tempSensorUUID = {};
+    for (let index = 0; index < sensors.length; index++) {
+      const element = sensors[index];
+      if (element.UUID.includes("Ammonia")) {
+        tempSensorUUID = element
+      }
+    }
+    const targetSensor = await Sensors.findOne({ UUID: tempSensorUUID.UUID })
+    const LatestReading = await Readings.findOne({ sensor: targetSensor._id }, {}, { sort: { 'created_at': -1 } })
+    console.log(LatestReading);
+    res.status(200).json(LatestReading)
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get('/latest/hum/:_id', async (req, res, next) => {
+  try {
+    const deviceId = req.params._id;
+    const TargetDevice = await Devices.findById(deviceId);
+    const sensors = TargetDevice.sensors
+    let tempSensorUUID = {};
+    for (let index = 0; index < sensors.length; index++) {
+      const element = sensors[index];
+      if (element.UUID.includes("Humidity")) {
+        tempSensorUUID = element
+      }
+    }
+    const targetSensor = await Sensors.findOne({ UUID: tempSensorUUID.UUID })
+    const LatestReading = await Readings.findOne({ sensor: targetSensor._id }, {}, { sort: { 'created_at': -1 } })
+    console.log(LatestReading);
+    res.status(200).json(LatestReading)
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+
+router.get('/latest/all/:_id', readingController.getLatestReadingByDeviceId)
+router.get('/all/device/:_id', readingController.getAllDeviceReadingsById)
+
+// router.get('/latest/all/:_id', async (req, res, next) => {
+//   try {
+//     const resData = []
+//     const deviceId = req.params._id;
+//     const Device = await Devices.findById(deviceId);
+//     const sensors = [];
+//     for (let index = 0; index < Device.sensors.length; index++) {
+//       const element = Device.sensors[index];
+//       const targetSensor = await Sensors.findOne({ UUID: element.UUID })
+//       const LatestReading = await Readings.findOne({ sensor: targetSensor._id }, {}, { sort: { 'created_at': -1 } }) 
+//       resData.push(LatestReading)
+//     }
+//     res.status(200).json(resData)
+//   } catch (e) {
+//     // res.status(500)
+//     console.error(e)
+//   }
+// })
+
 router.get('/temp', async (req, res, next) => {
   try {
     const data = await Readings.find({ key: 'Temprature' });
@@ -112,15 +199,15 @@ router.get('/latest', async (req, res, next) => {
   }
 });
 
-const arrayAvg = (array)=>{
-    let sum = 0;
-    let avg = 0;
-    for (let index = 0; index < array.length; index++) {
-        const element = array[index];
-        sum = parseInt(element) + sum
-    }
-    avg = sum/array.length
-    return Number(avg).toFixed(2);
+const arrayAvg = (array) => {
+  let sum = 0;
+  let avg = 0;
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    sum = parseInt(element) + sum
+  }
+  avg = sum / array.length
+  return Number(avg).toFixed(2);
 }
 
 const getAvgReadings = async (gateway, nodes) => {
@@ -128,16 +215,22 @@ const getAvgReadings = async (gateway, nodes) => {
   var hums = [];
   var nh3s = [];
 
+  //   temps.push("20")
+
   const TargetGateway = await Devices.findById(gateway);
   for (let index = 0; index < TargetGateway.sensors.length; index++) {
     const n = TargetGateway.sensors[index];
     const TargetSensor = await Sensors.findOne({ UUID: n.UUID });
     const TargetReadigns = await Readings.find({ sensor: TargetSensor._id });
-    for (let index = 0; index < 2; index++) {
+    for (let index = 0; index < TargetReadigns.length; index++) {
       const element = TargetReadigns[index];
+      console.log(index);
       if (element.key === 'Temprature') temps.push(element.point);
       if (element.key === 'Humidity') hums.push(element.point);
       if (element.key === 'Ammonia') nh3s.push(element.point);
+      //   if (element.key === 'Temprature') console.log('Temp: ', element.point);
+      //   if (element.key === 'Humidity') console.log('Hum: ', element.point);
+      //   if (element.key === 'Ammonia') console.log('Nh3: ', element.point);
     }
   }
 
@@ -148,7 +241,7 @@ const getAvgReadings = async (gateway, nodes) => {
       const n = node.sensors[index];
       const TargetSensor = await Sensors.findOne({ UUID: n.UUID });
       const TargetReadigns = await Readings.find({ sensor: TargetSensor._id });
-      for (let index = 0; index < 2; index++) {
+      for (let index = 0; index < TargetReadigns.length; index++) {
         const element = TargetReadigns[index];
         if (element.key === 'Temprature') temps.push(element.point);
         if (element.key === 'Humidity') hums.push(element.point);
@@ -174,17 +267,8 @@ const getAvgReadings = async (gateway, nodes) => {
   };
 };
 
-router.get('/', async(req, res, next) => {
-  try{
-
-  }catch (error) {
-    throw err;
-  }
-})
-
 router.get('/networkId/:networkId', async (req, res, next) => {
   try {
-    
     const TargetNework = await Networks.findById(req.params.networkId);
     if (!TargetNework)
       throw {

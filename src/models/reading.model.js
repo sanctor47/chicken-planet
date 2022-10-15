@@ -7,7 +7,8 @@ const readingSchema = new Schema(
       ref: 'Sensor'
     },
     key: { type: String },
-    point: { type: String }
+    point: { type: String },
+    UUID: { type: String },
   },
   {
     timestamps: true
